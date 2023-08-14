@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>notif</title>
+</head>
+
+<body>
+    <h1>notif</h1>
+    <input type="text" id="messageInput" placeholder="Masukkan pesan">
+    <button onclick="showNotification()">Kirim</button>
+
+    <ul id="messageList"></ul>
+
+    <script>
+        function showNotification() {
+            const message = document.getElementById('messageInput').value;
+            // Periksa apakah browser mendukung Notifikasi
+            if (!("Notification" in window)) {
+                alert("Browser Anda tidak mendukung Notifikasi Desktop.");
+                return;
+            }
+
+            const options = {
+                body: message,
+                // image: 'image.jpg', // Ganti dengan path menuju ikon notifikasi Anda
+            };
+
+            // Periksa izin Notifikasi
+            if (Notification.permission === "granted") {
+                // Jika izin telah diberikan, tampilkan notifikasi
+                const notification = new Notification('Judul Notification', options);
+            } else if (Notification.permission !== "denied") {
+                // Jika izin belum diberikan, minta izin
+                Notification.requestPermission().then(function (permission) {
+                    if (permission === "granted") {
+                        // Jika izin diberikan, tampilkan notifikasi
+                        const notification = new Notification('Judul Notification', options);
+                    }
+                });
+            }
+        }
+
+        showNotification();
+    </script>
+</body>
+
+</html>
